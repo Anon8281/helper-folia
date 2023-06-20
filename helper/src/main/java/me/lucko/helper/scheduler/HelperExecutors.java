@@ -25,6 +25,7 @@
 
 package me.lucko.helper.scheduler;
 
+import me.lucko.helper.Helper;
 import me.lucko.helper.internal.LoaderUtils;
 import me.lucko.helper.internal.exception.HelperExceptions;
 
@@ -60,14 +61,14 @@ public final class HelperExecutors {
     private static final class BukkitSyncExecutor implements Executor {
         @Override
         public void execute(Runnable runnable) {
-            Bukkit.getScheduler().scheduleSyncDelayedTask(LoaderUtils.getPlugin(), HelperExceptions.wrapSchedulerTask(runnable));
+            Helper.scheduler().runTaskLater(LoaderUtils.getPlugin(), HelperExceptions.wrapSchedulerTask(runnable), 1L);
         }
     }
 
     private static final class BukkitAsyncExecutor implements Executor {
         @Override
         public void execute(Runnable runnable) {
-            Bukkit.getScheduler().runTaskAsynchronously(LoaderUtils.getPlugin(), HelperExceptions.wrapSchedulerTask(runnable));
+            Helper.scheduler().runTaskAsynchronously(HelperExceptions.wrapSchedulerTask(runnable));
         }
     }
 

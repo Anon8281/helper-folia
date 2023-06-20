@@ -25,21 +25,20 @@
 
 package me.lucko.helper;
 
+import com.github.Anon8281.universalScheduler.UniversalScheduler;
+import com.github.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
 import me.lucko.helper.internal.LoaderUtils;
 import me.lucko.helper.plugin.HelperPlugin;
 import me.lucko.helper.utils.annotation.NonnullByDefault;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicesManager;
-import org.bukkit.scheduler.BukkitScheduler;
-
-import java.util.Optional;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 /**
  * Base class for helper, which mainly just proxies calls to {@link Bukkit#getServer()} for convenience.
@@ -68,13 +67,17 @@ public final class Helper {
         return server().getPluginManager();
     }
 
+    public static TaskScheduler scheduler() {
+        return UniversalScheduler.getScheduler(hostPlugin());
+    }
+
     public static ServicesManager services() {
         return server().getServicesManager();
     }
 
-    public static BukkitScheduler bukkitScheduler() {
-        return server().getScheduler();
-    }
+//    public static BukkitScheduler bukkitScheduler() {
+//        return server().getScheduler();
+//    }
 
     @Nullable
     public static <T> T serviceNullable(Class<T> clazz) {

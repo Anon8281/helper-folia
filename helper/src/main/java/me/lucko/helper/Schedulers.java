@@ -91,14 +91,14 @@ public final class Schedulers {
         return ASYNC_SCHEDULER;
     }
 
-    /**
-     * Gets Bukkit's scheduler.
-     *
-     * @return bukkit's scheduler
-     */
-    public static BukkitScheduler bukkit() {
-        return Helper.bukkitScheduler();
-    }
+//    /**
+//     * Gets Bukkit's scheduler.
+//     *
+//     * @return bukkit's scheduler
+//     */
+//    public static BukkitScheduler bukkit() {
+//        return Helper.bukkitScheduler();
+//    }
 
     /**
      * Gets a {@link TaskBuilder} instance
