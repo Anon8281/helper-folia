@@ -6,4 +6,5 @@ main: me.lucko.helper.internal.StandalonePlugin
 website: https://github.com/lucko/helper
 load: STARTUP
 softdepend: [ProtocolLib, Citizens, ViaVersion]
+folia-supported: true
 api-version: 1.13

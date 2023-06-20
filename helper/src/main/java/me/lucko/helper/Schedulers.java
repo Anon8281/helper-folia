@@ -25,6 +25,7 @@
 
 package me.lucko.helper;
 
+import com.github.Anon8281.universalScheduler.scheduling.tasks.MyScheduledTask;
 import me.lucko.helper.interfaces.Delegate;
 import me.lucko.helper.internal.LoaderUtils;
 import me.lucko.helper.internal.exception.HelperExceptions;
@@ -35,18 +36,16 @@ import me.lucko.helper.scheduler.Task;
 import me.lucko.helper.scheduler.Ticks;
 import me.lucko.helper.scheduler.builder.TaskBuilder;
 import me.lucko.helper.utils.annotation.NonnullByDefault;
+import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
-
+import javax.annotation.Nonnull;
 import java.util.Objects;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
-
-import javax.annotation.Nonnull;
 
 /**
  * Provides common instances of {@link Scheduler}.
@@ -127,7 +126,7 @@ public final class Schedulers {
         public Task runRepeating(@Nonnull Consumer<Task> consumer, long delayTicks, long intervalTicks) {
             Objects.requireNonNull(consumer, "consumer");
             HelperTask task = new HelperTask(consumer);
-            task.runTaskTimer(LoaderUtils.getPlugin(), delayTicks, intervalTicks);
+            Helper.scheduler().runTaskTimer(task::run, delayTicks, intervalTicks);
             return task;
         }
 
@@ -156,7 +155,7 @@ public final class Schedulers {
         public Task runRepeating(@Nonnull Consumer<Task> consumer, long delayTicks, long intervalTicks) {
             Objects.requireNonNull(consumer, "consumer");
             HelperTask task = new HelperTask(consumer);
-            task.runTaskTimerAsynchronously(LoaderUtils.getPlugin(), delayTicks, intervalTicks);
+            Helper.scheduler().runTaskTimerAsynchronously(task::run, delayTicks, intervalTicks);
             return task;
         }
 
@@ -168,9 +167,8 @@ public final class Schedulers {
         }
     }
 
-    private static class HelperTask extends BukkitRunnable implements Task, Delegate<Consumer<Task>> {
+    private static class HelperTask implements MyScheduledTask, Task, Delegate<Consumer<Task>> {
         private final Consumer<Task> backingTask;
-
         private final AtomicInteger counter = new AtomicInteger(0);
         private final AtomicBoolean cancelled = new AtomicBoolean(false);
 
@@ -178,7 +176,6 @@ public final class Schedulers {
             this.backingTask = backingTask;
         }
 
-        @Override
         public void run() {
             if (this.cancelled.get()) {
                 cancel();
@@ -208,11 +205,6 @@ public final class Schedulers {
         }
 
         @Override
-        public int getBukkitId() {
-            return getTaskId();
-        }
-
-        @Override
         public boolean isClosed() {
             return this.cancelled.get();
         }
@@ -220,6 +212,31 @@ public final class Schedulers {
         @Override
         public Consumer<Task> getDelegate() {
             return this.backingTask;
+        }
+
+        @Override
+        public void cancel() {
+            stop();
+        }
+
+        @Override
+        public boolean isCancelled() {
+            return isClosed();
+        }
+
+        @Override
+        public @NotNull Plugin getOwningPlugin() {
+            return LoaderUtils.getPlugin();
+        }
+
+        @Override
+        public boolean isCurrentlyRunning() {
+            return !isClosed();
+        }
+
+        @Override
+        public boolean isRepeatingTask() {
+            return false; //IDK
         }
     }
 
@@ -262,11 +279,6 @@ public final class Schedulers {
             } else {
                 return false;
             }
-        }
-
-        @Override
-        public int getBukkitId() {
-            throw new UnsupportedOperationException();
         }
 
         @Override
