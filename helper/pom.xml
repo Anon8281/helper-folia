@@ -273,7 +273,7 @@
         <dependency>
             <groupId>com.github.Anon8281</groupId>
             <artifactId>UniversalScheduler</artifactId>
-            <version>0.0.7</version>
+            <version>0.0.8</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
