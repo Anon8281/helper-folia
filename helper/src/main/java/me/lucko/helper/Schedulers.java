@@ -37,17 +37,13 @@ import me.lucko.helper.scheduler.Ticks;
 import me.lucko.helper.scheduler.builder.TaskBuilder;
 import me.lucko.helper.utils.annotation.NonnullByDefault;
 
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
-
+import javax.annotation.Nonnull;
 import java.util.Objects;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
-
-import javax.annotation.Nonnull;
 
 /**
  * Provides common instances of {@link Scheduler}.
@@ -258,11 +254,6 @@ public final class Schedulers {
             } else {
                 return false;
             }
-        }
-
-        @Override
-        public int getBukkitId() {
-            throw new UnsupportedOperationException();
         }
 
         @Override
