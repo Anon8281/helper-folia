@@ -2,7 +2,7 @@ name: helper-mongo
 author: Luck
 version: ${project.version}
 description: ${project.description}
-main: me.lucko.helper.mongo.plugin.HelperMongoPlugin
+main: me.lucko.plugin.mongo.helpe.HelperMongoPlugin
 website: https://github.com/lucko/helper
 load: STARTUP
 depend: [helper]
