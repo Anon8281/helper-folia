@@ -25,11 +25,9 @@
 
 package me.lucko.helper.internal;
 
-import com.github.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
 import me.lucko.helper.Commands;
 import me.lucko.helper.plugin.ExtendedJavaPlugin;
 import me.lucko.helper.utils.Players;
-
 import org.bukkit.plugin.Plugin;
 
 import java.util.Comparator;
@@ -39,7 +37,7 @@ import java.util.Comparator;
  * on the server to use.
  */
 @HelperImplementationPlugin
-public final class StandalonePlugin extends ExtendedJavaPlugin {
+public class StandalonePlugin extends ExtendedJavaPlugin {
     public StandalonePlugin() {
         getLogger().info("Initialized helper v" + getDescription().getVersion());
     }
